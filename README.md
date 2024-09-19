@@ -1,6 +1,8 @@
 # habit_tracker
 
-Это учебный репозиторий для тренировки навыков. Оригинальный репозиторий: https://github.com/cybdom/flutter-habit-tracker. Ссылка на экраны:https://www.behance.net/gallery/83756551/Flutter-Tutorial-Habit-tracker-ui
+### Это учебный репозиторий для тренировки навыков.
+### Оригинальный репозиторий: https://github.com/cybdom/flutter-habit-tracker. 
+### Ссылка на экраны:https://www.behance.net/gallery/83756551/Flutter-Tutorial-Habit-tracker-ui
 
 ## Getting Started
 

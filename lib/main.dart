@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Habit tracker',
+      title: 'Habit trackers',
       home: Home(),
     );
   }
@@ -74,8 +74,9 @@ class Home extends StatelessWidget {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+        padding: const EdgeInsets.only(left: 25.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 20),
             SizedBox(
@@ -132,10 +133,10 @@ class Home extends StatelessWidget {
                 },
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Container(
-              height: 120,
-              padding: EdgeInsets.only(top: 20, bottom: 20, left: 22),
+              height: 90,
+              padding: const EdgeInsets.only(top: 15, bottom: 15, left: 15),
               decoration: const BoxDecoration(
                 color: Color(0xff1b232e),
                 borderRadius: BorderRadius.only(
@@ -151,16 +152,17 @@ class Home extends StatelessWidget {
                   int day = DateTime.now().day + index;
                   bool isToday = DateTime.now().day == day;
                   return Padding(
-                    padding: EdgeInsets.only(right: 10),
+                    padding: const EdgeInsets.only(right: 10),
                     child: FittedBox(
                       child: Container(
                         // alignment: Alignment.center,
-                        width: 90,
-                        height: 90,
+                        width: 80,
+                        height: 80,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6),
-                          color:
-                              isToday ? Color(0xff727be8) : Color(0xff131b26),
+                          borderRadius: BorderRadius.circular(5),
+                          color: isToday
+                              ? const Color(0xff727be8)
+                              : const Color(0xff131b26),
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -171,7 +173,7 @@ class Home extends StatelessWidget {
                                 color: isToday
                                     ? Colors.white
                                     : Colors.blueGrey.shade500,
-                                fontSize: 25,
+                                fontSize: 20,
                                 fontWeight: isToday
                                     ? FontWeight.bold
                                     : FontWeight.normal,
@@ -200,9 +202,9 @@ class Home extends StatelessWidget {
                 },
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             RichText(
-              text: TextSpan(
+              text: const TextSpan(
                 children: [
                   TextSpan(
                     text: 'Your Habits',
@@ -213,18 +215,97 @@ class Home extends StatelessWidget {
                     ),
                   ),
                   TextSpan(
-                    text: '5',
+                    text: '  5',
                     style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.100,
+                      fontSize: 21,
+                      fontWeight: FontWeight.w100,
                       color: Colors.white,
                     ),
                   ),
                 ],
               ),
             ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: habits2.length,
+                itemBuilder: (context, index) {
+                  return HabitCard(index: index);
+                },
+              ),
+            )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class HabitCard extends StatelessWidget {
+  final int index;
+
+  const HabitCard({super.key, required this.index});
+
+  @override
+  Widget build(BuildContext context) {
+    bool isDone = habits2[index]['aim'] == habits2[index]['daysCompleted'];
+    return Container(
+      margin: const EdgeInsets.only(top: 20, bottom: 20, right: 24),
+      child: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(7),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: isDone ? habits2[index]['color'] : Colors.transparent,
+                  border: isDone
+                      ? const Border()
+                      : Border.all(
+                          color: Colors.grey.shade400,
+                        ),
+                ),
+                child: Icon(
+                  Icons.done,
+                  color: isDone ? Colors.white : Colors.grey.shade400,
+                ),
+              ),
+              const SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    habits2[index]['title'],
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 19,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 1),
+                  Text(
+                    '${habits2[index]['daysCompleted']} from ${habits2[index]['aim']} this week',
+                    style: TextStyle(
+                      color: Colors.grey.shade600,
+                      fontSize: 17,
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+          const SizedBox(height: 10),
+          LinearProgressIndicator(
+            borderRadius: BorderRadius.circular(10),
+            minHeight: 6,
+            valueColor: AlwaysStoppedAnimation(
+              habits2[index]['color'],
+            ),
+            backgroundColor: const Color(0xff1c232d),
+            value: habits2[index]['daysCompleted'] / habits2[index]['aim'],
+          )
+        ],
       ),
     );
   }
@@ -261,4 +342,31 @@ List<Map<String, dynamic>> habits = [
     'title': 'YP',
     'fulltext': 'Yoga Practice',
   },
+];
+
+List<Map<String, dynamic>> habits2 = [
+  {
+    'aim': 5,
+    'title': 'Learn 5 new words',
+    'color': const Color(0xff7524ff),
+    'daysCompleted': 5,
+  },
+  {
+    'aim': 5,
+    'title': 'Learn 5 new words',
+    'daysCompleted': 1,
+    'color': const Color(0xfff03244),
+  },
+  {
+    'aim': 7,
+    'title': 'Create an App a day',
+    'daysCompleted': 4,
+    'color': const Color.fromARGB(255, 255, 226, 34),
+  },
+  {
+    'aim': 6,
+    'title': 'Create an App 6 time',
+    'daysCompleted': 6,
+    'color': const Color(0xff00d5e2),
+  }
 ];
