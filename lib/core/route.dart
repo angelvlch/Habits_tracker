@@ -1,5 +1,5 @@
-class Route {
-  Route._();
-  static const main = '/main';
+class Routes {
+  Routes._();
+  static const main = '/';
   static const detail = '/detail';
 }
