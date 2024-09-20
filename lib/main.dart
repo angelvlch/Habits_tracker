@@ -38,8 +38,8 @@ List<Map<String, dynamic>> habits = [
 
 List<Map<String, dynamic>> habits2 = [
   {
-    'aim': 5,
-    'title': 'Learn 5 new words',
+    'aim': 7,
+    'title': 'Learn 7 new words',
     'color': const Color(0xff7524ff),
     'daysCompleted': 5,
   },
@@ -73,9 +73,8 @@ class MyApp extends StatelessWidget {
   Map<String, WidgetBuilder> get _routes {
     return {
       Routes.main: (context) => const Home(),
-      Routes.detail: (context) => Detail(
-          data: ModalRoute.of(context)!.settings.arguments
-              as Map<String, dynamic>),
+      Routes.detail: (context) =>
+          Detail(index: ModalRoute.of(context)!.settings.arguments as int),
     };
   }
 

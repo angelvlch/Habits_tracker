@@ -13,51 +13,60 @@ class Home extends StatelessWidget {
       backgroundColor: const Color(0xff131b26),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: RichText(
-          text: const TextSpan(
-            children: [
-              TextSpan(
-                text: ' Most Popuar',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 25,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-              TextSpan(
-                text: '  Habits',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 25,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          InkWell(
-            child: Container(
-              padding: const EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: const Color.fromARGB(255, 91, 9, 255),
-                  boxShadow: [
-                    const BoxShadow(
-                      color: Color.fromARGB(255, 91, 9, 255),
-                      blurRadius: 10,
-                      offset: Offset(0, 3),
-                    )
-                  ]),
-              child: const Icon(
-                Icons.add,
-                color: Colors.white,
-                size: 25,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            RichText(
+              text: const TextSpan(
+                children: [
+                  TextSpan(
+                    text: ' Most Popuar',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 25,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                  TextSpan(
+                    text: '  Habits',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 25,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-          const SizedBox(width: 25),
-        ],
+            Material(
+              type: MaterialType.transparency,
+              child: InkWell(
+                splashFactory: InkRipple.splashFactory,
+                customBorder: const CircleBorder(),
+                onTap: () {},
+                child: Ink(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: const Color.fromARGB(255, 91, 9, 255),
+                    boxShadow: const [
+                      BoxShadow(
+                        spreadRadius: 1,
+                        color: Color.fromARGB(255, 91, 9, 255),
+                        blurRadius: 3,
+                      ),
+                    ],
+                  ),
+                  child: const Icon(
+                    Icons.add,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 25.0),
@@ -215,13 +224,10 @@ class Home extends StatelessWidget {
               child: ListView.builder(
                 itemCount: habits2.length,
                 itemBuilder: (context, index) {
-                  return InkWell(
-                    child: HabitCard(index: index),
-                    onTap: () => Navigator.pushNamed(
-                      context,
-                      Routes.detail,
-                      arguments: habits2[index],
-                    ),
+                  return HabitCard(
+                    index: index,
+                    onTap: () => Navigator.pushNamed(context, Routes.detail,
+                        arguments: index),
                   );
                 },
               ),
