@@ -133,17 +133,99 @@ class Detail extends StatelessWidget {
           //
           Flexible(
             flex: 2,
-            child: Container(
-              color: Colors.green,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [],
+            child: Transform.rotate(
+              angle: 3.14,
+              child: CustomPaint(
+                painter: CurvePath(),
+                child: CurveBackground(),
               ),
             ),
           ),
         ],
       ),
     );
+  }
+}
+
+class CurveBackground extends StatelessWidget {
+  const CurveBackground({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipPath(
+      clipper: MyCustomClipper(),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xff221b4c),
+              Color(0xff151b2b),
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class MyCustomClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    final path = Path();
+    path.lineTo(0, size.height * 0.50);
+    path.quadraticBezierTo(size.width * 0.10, size.height * 0.80,
+        size.width * 0.15, size.height * 0.60);
+    path.quadraticBezierTo(size.width * 0.20, size.height * 0.45,
+        size.width * 0.27, size.height * 0.60);
+    path.quadraticBezierTo(
+        size.width * 0.45, size.height, size.width * 0.50, size.height * 0.80);
+    path.quadraticBezierTo(size.width * 0.55, size.height * 0.45,
+        size.width * 0.75, size.height * 0.75);
+    path.quadraticBezierTo(
+        size.width * 0.85, size.height * 0.93, size.width, size.height * 0.60);
+
+    path.lineTo(size.width, 0);
+
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+    return true;
+  }
+}
+
+class CurvePath extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint();
+    paint.color = Color(0xff701dff);
+    paint.strokeWidth = 5.0;
+    paint.style = PaintingStyle.stroke;
+
+    final path = Path();
+    path.moveTo(0, size.height * 0.50);
+    path.quadraticBezierTo(size.width * 0.10, size.height * 0.80,
+        size.width * 0.15, size.height * 0.60);
+    path.quadraticBezierTo(size.width * 0.20, size.height * 0.45,
+        size.width * 0.27, size.height * 0.60);
+    path.quadraticBezierTo(
+        size.width * 0.45, size.height, size.width * 0.50, size.height * 0.80);
+    path.quadraticBezierTo(size.width * 0.55, size.height * 0.45,
+        size.width * 0.75, size.height * 0.75);
+    path.quadraticBezierTo(
+        size.width * 0.85, size.height * 0.93, size.width, size.height * 0.60);
+
+    path.moveTo(size.width, 0);
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
   }
 }
 
